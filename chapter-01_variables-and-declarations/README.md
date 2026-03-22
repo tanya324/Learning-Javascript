@@ -1,72 +1,115 @@
-Chapter-1: Variables and Declarations
+# Chapter 1: Variables & Declarations
 
-1. What are variables?
-- variables are the containers that hold data and values.
-- They help us store, reuse, and update information in Javascript - these values can be simple as well as complex.
-- In javascipt, variables can be created using keywords: var, let, const.
+---
 
-1.1 "var" keyword: 
-- old and risky keyword
-- window bounded
-- function bounded
-- can be redeclared and reassigned i.e. one common variable name can have more than one more values in different places with no error
-- Syntax: var {variable_name} = value; or var {variable_name};
+## 1. What are Variables?
 
-1.2 "let" keyword:
-- new and modern
-- not window bounded
-- block bounded
-- value can be reassigned but not declared again i.e. same variables cannot be declared
-- Syntax: let {variable_name} = value; or let {variable_name};
+Variables are containers that hold data and values.
+They help us store, reuse, and update information in JavaScript — from simple values like numbers to complex ones like arrays and objects.
 
-1.3 "const" keyword:
-- cannot be reassigned or redeclared
-- value cannot change throughout
-- value need to be assigned at the time of declaration
-- Syntax: const {variable_name} = value;
+In JavaScript, variables are created using three keywords: `var`, `let`, and `const`.
 
 
 
 
-2. What is scope?
-- scope refers to the extent, range, or boundary of any part of the code
-- it defines the accessibility or visibility of any variable, functions, and objects in a particular part of the code
-- there are three types of scope - globally, block, and function
+## 2. Variable Keywords
 
-2.1 Globally Scope:
-- can be accessed from anywhere in the code
+### 2.1 `var`
+- Old and risky — avoid using it in modern code
+- Scoped to the **window** (globally) and **functions**
+- Can be **redeclared and reassigned** — same variable name can be declared multiple times without any error
+- Hoisted with a default value of `undefined`
+```js
+var name = "Tanya";
+var name = "Riya"; // ✅ No error
+```
 
-2.2 Function Scope:
-- variables defined inside a function are not accessible outside the function
-- variables like: var
+### 2.2 `let`
+- Modern and safe
+- **Not** window-bounded
+- Scoped to **blocks** `{}`
+- Can be **reassigned** but **not redeclared** in the same scope
+```js
+let age = 20;
+age = 21;     // ✅ Reassign allowed
+let age = 22; // ❌ ReferenceError
+```
 
-2.3 Block Scope: 
--  variables accessible inside a block {}
-- variables like: let, const
+### 2.3 `const`
+- Cannot be **reassigned or redeclared**
+- Value must be assigned **at the time of declaration**
+- Best for values that shouldn't change
+```js
+const PI = 3.14;
+PI = 3.14159; // ❌ TypeError
+```
+
+> ⚠️ Note: If `const` holds an object or array, its **contents** can still be modified — only the reference is locked.
 
 
 
 
-3. What is Temporal Dead Zone (TDZ)?
-- area/period in the code where any variable is inaccessible until it is initialized
-- starts from the beginning of the code until the variable is declared
-- accessing the variable in TDZ results in ReferenceError
-- var does not have a TDZ
+## 3. Scope
+
+Scope refers to the boundary of code within which a variable, function, or object is accessible.
+
+There are three types of scope in JavaScript:
+
+### 3.1 Global Scope
+- Variables declared outside any block or function
+- Accessible from **anywhere** in the code
+
+### 3.2 Function Scope
+- Variables declared inside a function are **not accessible outside** it
+- `var` follows function scope
+
+### 3.3 Block Scope
+- Variables accessible only within a block `{}`
+- `let` and `const` follow block scope
 
 
 
 
-4. What is Hoisting?
-- it is a mechanism where a variable is broken down into two parts - declaration and intialization
-- the declaration part moves to the starting of the code and
-- intilization part stays where it is
-- Ex: 
-    console.log = a;
-    var a = 12;
-    
-    this gets broken down into two parts:
-    (a) var a = undefined; (declaration part moves to the top of the code)
-    (b) a = 12; (intialization part stays where it is)
+## 4. Temporal Dead Zone (TDZ)
 
-- var shows no error in hoisting because it is accessible even before intialization
-- let and const keywords shows ReferenceError because they need to be intialized before being accessible. 
+The TDZ is the period between the **start of a block** and the point where a variable is **initialized**.
+
+- Accessing a variable in its TDZ throws a `ReferenceError`
+- Applies to `let` and `const` — **not** `var`
+```js
+console.log(a); // ❌ ReferenceError — TDZ
+let a = 10;
+
+console.log(b); // ✅ undefined — no TDZ for var
+var b = 10;
+```
+
+
+
+
+## 5. Hoisting
+
+Hoisting is a JavaScript mechanism where variable **declarations** are moved to the top of their scope before the code runs — but **initializations stay in place**.
+```js
+// What you write:
+console.log(a); // undefined
+var a = 12;
+
+// How JS sees it:
+var a = undefined; // declaration hoisted
+console.log(a);    // undefined
+a = 12;            // initialization stays
+```
+
+| Keyword | Hoisted? | Default Value | TDZ? |
+|---------|----------|---------------|------|
+| `var`   | ✅ Yes   | `undefined`   | ❌ No |
+| `let`   | ✅ Yes   | ❌ Not initialized | ✅ Yes |
+| `const` | ✅ Yes   | ❌ Not initialized | ✅ Yes |
+
+
+
+
+## 🧠 Mindset Rule
+
+> Use `const` by default. Use `let` only when you plan to reassign. Never use `var`.
