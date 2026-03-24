@@ -12,3 +12,13 @@ console.log(typeof undefined);
 // boolean
 // object
 // undefined
+
+
+// A special case for null
+console.log(typeof null); // Output: object
+
+// A special case for arrays
+console.log(typeof []); // Output: object
+
+// A special case for functions
+console.log(typeof function() {}); // Output: function
